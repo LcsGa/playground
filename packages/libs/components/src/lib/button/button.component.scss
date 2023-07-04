@@ -1,0 +1,39 @@
+:host {
+  @apply inline-flex;
+}
+
+.kind {
+  $colorPropName: text !default;
+
+  @each $kind in basic, flat {
+    @if $kind == flat {
+      $colorPropName: bg;
+    }
+
+    &--#{$kind} {
+      @if $kind == flat {
+        @apply text-slate-50;
+      }
+
+      @each $severity in primary, success, info, warning, danger {
+        &.severity--#{$severity} {
+          @if $severity == primary {
+            @apply #{$colorPropName}-blue-500;
+          } @else if $severity == success {
+            @apply #{$colorPropName}-lime-500;
+          } @else if $severity == info {
+            @apply #{$colorPropName}-cyan-500;
+          } @else if $severity == warning {
+            @apply #{$colorPropName}-orange-500;
+          } @else {
+            @apply #{$colorPropName}-red-500;
+          }
+        }
+      }
+    }
+  }
+
+  &--icon-only {
+    @apply aspect-square;
+  }
+}

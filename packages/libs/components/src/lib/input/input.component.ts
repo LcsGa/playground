@@ -18,16 +18,13 @@ import {
   imports: [FormsModule],
   template: `
     <input
-      class="rounded-md px-3 py-2 border-2 border-solid border-gray-300"
+      class="w-full h-11 rounded-md px-3 py-2 border-2 border-solid border-gray-300"
       type="text"
       placeholder="{{ placeholder }}"
       [ngModel]="value()"
       (ngModelChange)="writeValue($event)"
     />
   `,
-  styles: [
-    // 'input { @apply rounded-lg px-3 py-2 border-2 border-solid border-gray-300 }',
-  ],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: InputComponent, multi: true },
   ],

@@ -20,7 +20,8 @@
           "packages/todolist/src/assets"
         ],
         "styles": ["packages/todolist/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "inlineStyleLanguage": "scss"
       },
       "configurations": {
         "production": {
