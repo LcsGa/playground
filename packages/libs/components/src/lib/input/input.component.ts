@@ -3,7 +3,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
+  ViewChild,
   signal,
 } from '@angular/core';
 import {
@@ -11,6 +13,7 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { Focusable } from '../shared/directives/autofocus.directive';
 
 @Component({
   selector: 'cmp-input',
@@ -18,6 +21,7 @@ import {
   imports: [FormsModule],
   template: `
     <input
+      #input
       class="w-full h-11 rounded-md px-3 py-2 border-2 border-solid border-gray-300"
       type="text"
       placeholder="{{ placeholder }}"
@@ -30,8 +34,11 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputComponent implements ControlValueAccessor, Focusable {
   @Input() placeholder = '';
+
+  @ViewChild('input')
+  private readonly input?: ElementRef<HTMLInputElement>;
 
   protected readonly value = signal('');
 
@@ -50,5 +57,9 @@ export class InputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.#onTouched = fn;
+  }
+
+  focus(): void {
+    this.input?.nativeElement.focus();
   }
 }

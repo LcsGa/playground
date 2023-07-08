@@ -1,15 +1,21 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent, CardComponent, InputComponent } from '@components';
+import {
+  AutofocusDirective,
+  ButtonComponent,
+  CardComponent,
+  InputComponent,
+} from '@components';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { TodoComponent } from './todo/todo.component';
-import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-root',
   imports: [
+    AutofocusDirective,
     ButtonComponent,
     CardComponent,
     FormsModule,
@@ -22,6 +28,8 @@ import { NgFor, NgIf } from '@angular/common';
     <cmp-card class="max-w-xl">
       <div class="flex gap-x-3">
         <cmp-input
+          #input
+          [cmpAutofocus]="input"
           class="flex-1"
           placeholder="Ajouter une todo..."
           [ngModel]="todoInput()"
@@ -32,9 +40,19 @@ import { NgFor, NgIf } from '@angular/common';
         <cmp-button iconOnly icon="plus" (click)="addOne()" />
       </div>
 
-      <div *ngIf="todos().length" class="flex flex-col gap-y-3">
+      <div
+        *ngIf="todos().length"
+        class="flex flex-col divide-y-2 divide-gray-300"
+      >
         <app-todo
-          *ngFor="let todo of todos(); let index = index"
+          *ngFor="
+            let todo of todos();
+            let index = index;
+            let first = first;
+            let last = last
+          "
+          [class.pt-1]="!first"
+          [class.pb-1]="!last"
           [todo]="todo"
           (remove)="removeOne(index)"
         />
@@ -42,7 +60,7 @@ import { NgFor, NgIf } from '@angular/common';
     </cmp-card>
   `,
   styles: [
-    ':host { @apply flex justify-center items-center min-h-screen bg-slate-50 }',
+    ':host { @apply flex justify-center items-center min-h-screen p-8 bg-slate-50 }',
   ],
 })
 export class AppComponent {

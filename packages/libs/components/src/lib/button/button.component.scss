@@ -2,38 +2,76 @@
   @apply inline-flex;
 }
 
+@mixin bg-transition {
+  transition: background 150ms ease-in;
+}
+
 .kind {
-  $colorPropName: text !default;
-
-  @each $kind in basic, flat {
-    @if $kind == flat {
-      $colorPropName: bg;
-    }
-
-    &--#{$kind} {
-      @if $kind == flat {
-        @apply text-slate-50;
+  &--basic {
+    &.severity {
+      @mixin colorize($color) {
+        @apply hover:bg-#{$color}-50 focus:bg-#{$color}-50 text-#{$color}-500;
+        @include bg-transition;
       }
 
-      @each $severity in primary, success, info, warning, danger {
-        &.severity--#{$severity} {
-          @if $severity == primary {
-            @apply #{$colorPropName}-blue-500;
-          } @else if $severity == success {
-            @apply #{$colorPropName}-lime-500;
-          } @else if $severity == info {
-            @apply #{$colorPropName}-cyan-500;
-          } @else if $severity == warning {
-            @apply #{$colorPropName}-orange-500;
-          } @else {
-            @apply #{$colorPropName}-red-500;
-          }
-        }
+      &--primary {
+        @include colorize('blue');
+      }
+
+      &--success {
+        @include colorize('green');
+      }
+
+      &--info {
+        @include colorize('cyan');
+      }
+
+      &--warning {
+        @include colorize('orange');
+      }
+
+      &--danger {
+        @include colorize('red');
+      }
+    }
+  }
+
+  &--flat {
+    &.severity {
+      @mixin colorize($color) {
+        @apply bg-#{$color}-500 hover:bg-#{$color}-600 focus:bg-#{$color}-600 text-slate-50;
+        @include bg-transition;
+      }
+
+      &--primary {
+        @include colorize('blue');
+      }
+
+      &--success {
+        @include colorize('green');
+      }
+
+      &--info {
+        @include colorize('cyan');
+      }
+
+      &--warning {
+        @include colorize('orange');
+      }
+
+      &--danger {
+        @include colorize('red');
       }
     }
   }
 
   &--icon-only {
     @apply aspect-square;
+  }
+}
+
+.shape {
+  &--rounded {
+    @apply rounded-full;
   }
 }
